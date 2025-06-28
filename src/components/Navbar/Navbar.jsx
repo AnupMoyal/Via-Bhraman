@@ -10,7 +10,7 @@ const Navbar = () => {
           <span className="text-white text-xl">✈️</span>
         </div>
         <div>
-          <h1 className="text-xl font-bold">GlobeTrek</h1>
+          <h1 className="text-xl font-bold">Via Bhraman</h1>
           <p className="text-sm text-gray-600">Explore new lands</p>
         </div>
       </div>
