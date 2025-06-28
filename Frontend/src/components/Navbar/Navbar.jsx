@@ -1,6 +1,7 @@
 // src/components/Navbar.jsx
 import React from "react";
 
+
 const Navbar = () => {
   return (
     <nav className="w-full flex justify-between items-center py-6 px-10 md:px-20">
