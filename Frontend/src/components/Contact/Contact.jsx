@@ -1,29 +1,46 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Container } from "@mui/material";
+import axios from "axios";
+import {
+TextField,
+Button,
+Typography,
+Container,
+Accordion,
+AccordionSummary,
+AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function Contact() {
 const [form, setForm] = useState({ name: "", email: "", message: "" });
 const [success, setSuccess] = useState(false);
 
-// Handle form input change
 const handleChange = (e) => {
 setForm({ ...form, [e.target.name]: e.target.value });
 };
 
-// Handle form submission
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
 e.preventDefault();
 
-// Check for empty fields
 if (!form.name || !form.email || !form.message) {
 alert("Please fill all fields");
 return;
 }
 
-// Show success (simulated)
+try {
+const res = await axios.post("http://localhost:5000/api/contact", form);
+
+if (res.status === 200 || res.status === 201) {
 setSuccess(true);
 setForm({ name: "", email: "", message: "" });
 setTimeout(() => setSuccess(false), 4000);
+} else {
+alert("Message could not be sent. Try again later.");
+}
+} catch (error) {
+console.error("API Error:", error);
+alert("There was an error sending your message. Please try again.");
+}
 };
 
 return (
@@ -72,6 +89,54 @@ return (
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83925384157!2d77.06889940000001!3d28.527582000000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3dd2d4a4695%3A0x9c2c8e90c3c9a965!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1688041854290!5m2!1sen!2sin"></iframe>
       </div>
     </div>
+  </div>
+
+  {/* FAQ Section */}
+  <div className="max-w-4xl mx-auto mt-16">
+    <Typography variant="h5" className="text-yellow-500 font-semibold mb-4 text-center">
+      Frequently Asked Questions
+    </Typography>
+
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} className="font-medium">
+      What is the best time to travel?
+      </AccordionSummary>
+      <AccordionDetails>
+        It depends on your destination. For hill stations, summer is great. For beach locations, go during winter.
+      </AccordionDetails>
+    </Accordion>
+
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} className="font-medium">
+      Can I cancel or reschedule my trip?
+      </AccordionSummary>
+      <AccordionDetails>
+        Yes, based on your package terms. Contact our team for assistance.
+      </AccordionDetails>
+    </Accordion>
+
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} className="font-medium">
+      How can I get discounts?
+      </AccordionSummary>
+      <AccordionDetails>
+        We offer discounts during festivals and early bird bookings. Subscribe to our newsletter!
+      </AccordionDetails>
+    </Accordion>
+  </div>
+
+  {/* Helpful Travel Tips */}
+  <div className="max-w-4xl mx-auto mt-12 text-center">
+    <Typography variant="h5" className="text-yellow-500 font-semibold mb-4">
+      Helpful Travel Tips
+    </Typography>
+    <ul className="list-disc list-inside text-gray-700 text-left space-y-2">
+      <li>Always carry a copy of your ID and essential documents.</li>
+      <li>Pack light but smart — think weather and activity.</li>
+      <li>Use local SIM cards for better connectivity.</li>
+      <li>Check visa and COVID rules before booking.</li>
+      <li>Don’t forget travel insurance!</li>
+    </ul>
   </div>
 </main>
 );
